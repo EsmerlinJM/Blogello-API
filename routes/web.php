@@ -20,8 +20,16 @@ $router->get('/key', function() {
 });
 
 $router->group(['prefix' => 'api/v1'], function() use($router) {
+    // TODO: Login user
+    $router->post('/users/login', ['uses' => 'UserController@getToken']);
+
+    $router->group(['middleware' => ['auth']], function() use($router) {
+        // TODO: CRUD users
     $router->get('/users', ['uses' => 'UserController@index']);
     $router->post('/users', ['uses' => 'UserController@store']);
     $router->put('/users/{id}', ['uses' => 'UserController@update']);
     $router->delete('/users/{id}', ['uses' => 'UserController@destroy']);
+    });
+    
 });
+

@@ -81,4 +81,23 @@ class UserController extends Controller
         }
         return response()->json(['error' => 'Unauthorized'], 401, []); 
     }
+
+    public function getToken(Request $request){
+        if($request->isJson()){
+            try{
+                $data = $request->json()->all();
+                // TODO: Find user by username
+                $user = User::where('username', $data['username'])->first();
+                // TODO: Validate if user exist and password match with password of DB
+                if($user && Hash::check($data['password'], $user->password)){
+                    return response()->json([$user], 200);
+                } else {
+                    return response()->json(['error' => 'No content'], 406);
+                }
+            }catch(ModelNotFoundException $e){
+                return response()->json(['error' => 'No content'], 406);
+            }
+        } 
+        return response()->json(['error' => 'Unauthorized'], 401, []);
+    }
 }
