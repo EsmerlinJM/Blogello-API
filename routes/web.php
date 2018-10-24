@@ -19,4 +19,9 @@ $router->get('/key', function() {
     return str_random(32);
 });
 
-$router->get('/users', ['uses' => 'UserController@index']);
+$router->group(['prefix' => 'api/v1'], function() use($router) {
+    $router->get('/users', ['uses' => 'UserController@index']);
+    $router->post('/users', ['uses' => 'UserController@store']);
+    $router->put('/users/{id}', ['uses' => 'UserController@update']);
+    $router->delete('/users/{id}', ['uses' => 'UserController@destroy']);
+});
