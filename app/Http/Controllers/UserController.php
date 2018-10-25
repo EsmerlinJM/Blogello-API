@@ -8,20 +8,15 @@ use App\User;
 class UserController extends Controller
 {
     public function index(Request $request){
-
-        if ($request->isJson()) {
-            // Eloquent method
-            $user = User::all();
-            return response()->json([$user], 200);   
-        } 
-        
-        return response()->json(['error' => 'Unauthorized'], 401, []);
+        // Eloquent method
+        $user = User::all();
+        return response()->json([$user], 200);   
     }
 
     public function store(Request $request){
-        if ($request->isJson()) {
             // TODO: Create user on save in the DB
-            $data = $request->json()->all();
+            // $data = $request->json()->all();
+            $data = $request->all();
 
             $user = User::create([
                 'name' => $data['name'],
@@ -30,18 +25,13 @@ class UserController extends Controller
                 'password' => Hash::make($data['password']),
                 'api_token' => str_random(60),
             ]);
-
             return response()->json([$user], 201);   
-        } 
-        
-        return response()->json(['error' => 'Unauthorized'], 401, []);
     }
 
     public function update(Request $request, $id){
-        if ($request->isJson()) {
-            $data = $request->json()->all();
+            $data = $request->all();
             $user = User::find($id);
-            if($user != null){
+            if(!$user){
                 // TODO: Create update or create user in the DB
                 $user = User::updateOrCreate([
                     'id' => $id
@@ -58,34 +48,22 @@ class UserController extends Controller
             } else {
                 return response()->json(['error' => 'Not Found'], 404, []);  
             }
-             
-        }
-        return response()->json(['error' => 'Unauthorized'], 401, []);    
     }
 
     public function destroy(Request $request, $id){
-        if ($request->isJson()) {
-            $user = User::find($id);
-            if($user != null){
+            $user = User::findOrFail($id);
                 // TODO: Create delete user in the DB
-               if($user->delete()){
-                 return response()->json(['success' => 'Deleted'], 202); 
-               } else {
-                 return response()->json(['Error' => 'Bad Request'], 400); 
-               }
-                 
-            } else {
-                return response()->json(['error' => 'Not Found'], 404, []);  
-            }
-             
-        }
-        return response()->json(['error' => 'Unauthorized'], 401, []); 
+                if($user->delete()){
+                    return response()->json(['success' => 'Deleted'], 202); 
+                } else {
+                    return response()->json(['Error' => 'Bad Request'], 400); 
+                }
+            return response()->json(['error' => 'Not Found'], 404, []);      
     }
 
     public function getToken(Request $request){
-        if($request->isJson()){
             try{
-                $data = $request->json()->all();
+                $data = $request->all();
                 // TODO: Find user by username
                 $user = User::where('username', $data['username'])->first();
                 // TODO: Validate if user exist and password match with password of DB
@@ -97,7 +75,5 @@ class UserController extends Controller
             }catch(ModelNotFoundException $e){
                 return response()->json(['error' => 'No content'], 406);
             }
-        } 
-        return response()->json(['error' => 'Unauthorized'], 401, []);
     }
 }
