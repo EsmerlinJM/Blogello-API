@@ -28,9 +28,15 @@ $router->group(['prefix' => 'api/v1'], function() use($router) {
         $router->group(['middleware' => ['auth']], function() use($router) {
             // TODO: CRUD users
             $router->get('/users', ['uses' => 'UserController@index']);
+            $router->get('/users/{id}', ['uses' => 'UserController@show']);
             $router->post('/users', ['uses' => 'UserController@store']);
             $router->put('/users/{id}', ['uses' => 'UserController@update']);
             $router->delete('/users/{id}', ['uses' => 'UserController@destroy']);
+
+            // TODO:CRUD boards
+            $router->get('/boards', ['uses' => 'BoardController@index']);
+            $router->get('/boards/{id}', ['uses' => 'BoardController@show']);
+            $router->post('/boards', ['uses' => 'BoardController@store']);
         });
 
     });
