@@ -23,7 +23,11 @@ $router->group(['prefix' => 'api/v1'], function() use($router) {
     // TODO: Middleware validate header json
     $router->group(['middleware' => ['json']], function() use($router) {
         // TODO: Login user
-        $router->post('/users/login', ['uses' => 'UserController@getToken']);
+        $router->post('/users/login', ['uses' => 'Auth\AuthController@login']);
+
+        // TODO: Register user
+        $router->post('/users/register', ['uses' => 'Auth\AuthController@register']);
+
         // TODO: Validate is user is authenticate
         $router->group(['middleware' => ['auth']], function() use($router) {
             // TODO: CRUD users
@@ -33,8 +37,12 @@ $router->group(['prefix' => 'api/v1'], function() use($router) {
             $router->put('/users/{id}', ['uses' => 'UserController@update']);
             $router->delete('/users/{id}', ['uses' => 'UserController@destroy']);
 
+            // TODO: Logout user
+            $router->post('/users/logout', ['uses' => 'Auth\AuthController@logout']);
+
             // TODO:CRUD boards
             $router->get('/boards', ['uses' => 'BoardController@index']);
+            $router->get('/boards/{id}', ['uses' => 'BoardController@show']);
             $router->get('/boards/{id}', ['uses' => 'BoardController@show']);
             $router->post('/boards', ['uses' => 'BoardController@store']);
         });
