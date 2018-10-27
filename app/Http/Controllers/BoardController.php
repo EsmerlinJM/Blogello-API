@@ -14,9 +14,9 @@ class BoardController extends Controller
         return response()->json([$boards], 200);
     }
 
-    public function show($id){
+    public function show($board_id){
         // TODO: Find board by id
-        $board = Board::find($id);
+        $board = Board::find($board_id);
 
         if($board){
             if(Auth::user()->id == $board->user_id){
@@ -30,19 +30,18 @@ class BoardController extends Controller
     public function store(Request $request){
         $data = $request->all();
 
-        $board = Board::create([
+        $board = Auth::user()->boards()->create([
             'name' => $data['name'],
-            'user_id' => Auth::user()->id
         ]);
 
         return response()->json([$board], 201);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $board_id){
         $data = $request->all();
         // TODO: Create update or create user in the DB
 
-        $board = Board::find($id);
+        $board = Board::find($board_id);
 
         if($board){
             if(Auth::user()->id == $board->user_id){
@@ -61,8 +60,8 @@ class BoardController extends Controller
         return response()->json(['error' => 'Not Found'], 404, []);
     }
 
-    public function destroy($id){
-        $board = Board::find($id);
+    public function destroy($board_id){
+        $board = Board::find($board_id);
         // TODO: Create delete board in the DB
         if($board){
             if(Auth::user()->id == $board->user_id){

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Board extends Model {
+    protected $table = 'boards';
     /**
      * The attributes that are mass assignable.
      *
@@ -16,5 +17,9 @@ class Board extends Model {
 
     public function users(){
         return $this->belongsTo(User::class);
+    }
+
+    public function lists(){
+        return $this->hasMany(Lists::class);
     }
 }

@@ -73,13 +73,13 @@ class UserController extends Controller
     }
 
     public function destroy(Request $request, $id){
-            $user = User::findOrFail($id);
-                // TODO: Create delete user in the DB
-                if($user->delete()){
-                    return response()->json(['status' => 'Deleted'], 202); 
-                } else {
-                    return response()->json(['error' => 'Bad Request'], 400); 
-                }
-            return response()->json(['error' => 'Not Found'], 404, []);      
+        $user = User::findOrFail($id);
+            // TODO: Create delete user in the DB
+            if($user->delete()){
+                return response()->json(['status' => 'Deleted'], 202); 
+            } else {
+                return response()->json(['error' => 'Bad Request'], 400); 
+            }
+        return response()->json(['error' => 'Not Found'], 404, []);      
     }
 }
