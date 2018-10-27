@@ -40,11 +40,12 @@ $router->group(['prefix' => 'api/v1'], function() use($router) {
             // TODO: Logout user
             $router->post('/users/logout', ['uses' => 'Auth\AuthController@logout']);
 
-            // TODO:CRUD boards
+            // TODO: CRUD boards
             $router->get('/boards', ['uses' => 'BoardController@index']);
             $router->get('/boards/{id}', ['uses' => 'BoardController@show']);
-            $router->get('/boards/{id}', ['uses' => 'BoardController@show']);
             $router->post('/boards', ['uses' => 'BoardController@store']);
+            $router->put('/boards/{id}', ['uses' => 'BoardController@update']);
+            $router->delete('/boards/{id}', ['uses' => 'BoardController@destroy']);
         });
 
     });
