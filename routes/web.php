@@ -49,11 +49,17 @@ $router->group(['prefix' => 'api/v1'], function() use($router) {
 
             $router->group(['prefix' => 'boards'], function() use($router) {
                 // TODO: CRUD lists
-                $router->get('/{board_id}/list/', ['uses' => 'BoardController@index']);
-                $router->get('/{board_id}/list/{list_id}', ['uses' => 'BoardController@show']);
-                $router->post('/{board_id}/list', ['uses' => 'BoardController@store']);
-                $router->put('/{board_id}/list/{list_id}', ['uses' => 'BoardController@update']);
-                $router->delete('/{board_id}/list/{list_id}', ['uses' => 'BoardController@destroy']);
+                $router->get('/{board_id}/list/', ['uses' => 'ListController@index']);
+                $router->get('/{board_id}/list/{list_id}', ['uses' => 'ListController@show']);
+                $router->post('/{board_id}/list', ['uses' => 'ListController@store']);
+                $router->put('/{board_id}/list/{list_id}', ['uses' => 'ListController@update']);
+                $router->delete('/{board_id}/list/{list_id}', ['uses' => 'ListController@destroy']);
+                
+                $router->get('/{board_id}/list/{list_id}/card','CardController@index');
+                $router->post('/{board_id}/list/{list_id}/card','CardController@store');
+                $router->get('/{board_id}/list/{list_id}/card/{card_id}','CardController@show');
+                $router->put('/{board_id}/list/{list_id}/card/{card_id}','CardController@update');
+                $router->delete('/{board_id}/list/{list_id}/card/{card_id}','CardController@destroy');
             });
         });
 

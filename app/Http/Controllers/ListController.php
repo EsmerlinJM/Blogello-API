@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Board;
 
 class ListController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public function index($board_id){
         
         $board = Board::find($board_id);
@@ -23,7 +16,7 @@ class ListController extends Controller
         if($board){
             if(Auth::user()->id == $board->user_id){
                 $list = $board->lists;
-                return response()->json(['lists' => $lists], 200);
+                return response()->json(['lists' => $list], 200);
             }
             return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
         }
@@ -39,15 +32,14 @@ class ListController extends Controller
                 if($list){
                     return response()->json(['status' => 'success', 'list' => $list]);
                 }
-                //return response()->json(['error' => 'Not Found'], 404, []);
-                return response()->json(['error' => 'Not found']);
+                return response()->json(['error' => 'Not Found'], 404, []);
             }
             return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
         }
         return response()->json(['error' => 'Not found'], 404, []);
     }
 
-    public function store(Request $request, $board_id, $list_id){
+    public function store(Request $request, $board_id){
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -90,7 +82,7 @@ class ListController extends Controller
                     'name' => $data['name'],
                 ]
             );
-                return response()->json(['status' => 'Updated'], 202);
+                return response()->json(['status' => 'updated'], 202);
             }
             return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
         }
@@ -109,8 +101,7 @@ class ListController extends Controller
                         }
                         return response()->json(['status' => 'error', 'message' => 'Something went wrong'], 400); 
                     }
-                    //return response()->json(['error' => 'Not Found'], 404, []);
-                    return response()->json(['error' => 'Not found']);
+                    return response()->json(['error' => 'Not Found'], 404, []);
                 }
                 return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
             }
