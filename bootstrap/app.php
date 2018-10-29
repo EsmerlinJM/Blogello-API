@@ -63,9 +63,15 @@ $app->singleton(
 //     'json' => App\App\Http\Middleware\JsonMiddleware::class
 // ]);
 
+$app->middleware([
+    // ...
+    \Barryvdh\Cors\HandleCors::class,
+]);
+
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
-    'json' => App\Http\Middleware\JsonMiddleware::class
+    'json' => App\Http\Middleware\JsonMiddleware::class,
+    'cors' => \Barryvdh\Cors\HandleCors::class
 ]);
 
 /*
@@ -81,6 +87,7 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
+$app->configure('cors');
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

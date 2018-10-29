@@ -55,6 +55,7 @@ $router->group(['prefix' => 'api/v1'], function() use($router) {
                 $router->put('/{board_id}/list/{list_id}', ['uses' => 'ListController@update']);
                 $router->delete('/{board_id}/list/{list_id}', ['uses' => 'ListController@destroy']);
                 
+                // TODO: CRUD cards
                 $router->get('/{board_id}/list/{list_id}/card','CardController@index');
                 $router->post('/{board_id}/list/{list_id}/card','CardController@store');
                 $router->get('/{board_id}/list/{list_id}/card/{card_id}','CardController@show');
