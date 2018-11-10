@@ -19,6 +19,7 @@ $router->get('/key', function() {
     return str_random(32);
 });
 
+
 $router->group(['prefix' => 'api/v1'], function() use($router) {
     // TODO: Middleware validate header json
     $router->group(['middleware' => ['json']], function() use($router) {
@@ -40,6 +41,9 @@ $router->group(['prefix' => 'api/v1'], function() use($router) {
             // TODO: Logout user
             $router->post('/users/logout', ['uses' => 'Auth\AuthController@logout']);
 
+            // // TODO: Auth user
+            // $router->get('/users/auth', ['uses' => 'Auth\AuthController@auth']);
+            
             // TODO: CRUD boards
             $router->get('/boards', ['uses' => 'BoardController@index']);
             $router->get('/boards/{board_id}', ['uses' => 'BoardController@show']);

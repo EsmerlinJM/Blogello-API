@@ -11,14 +11,14 @@ class UserController extends Controller
     public function index(){
         // Eloquent method
         $user = User::all();
-        return response()->json([$user], 200);   
+        return response()->json(['users' => $user], 200);   
     }
 
     public function show($id){
         // TODO: Get user by id
         $user = User::find($id);
         if($user){
-            return response()->json([$user], 200);
+            return response()->json(['user' => $user], 200);
         }
         return response()->json(['error' => 'Not Found'], 404, []);
     }
@@ -28,7 +28,10 @@ class UserController extends Controller
             $data = $request->all();
 
             $validator = Validator::make($data, [
-                'email' => 'required|email|unique:users,email'
+                'name' => 'required|string',
+                'username' => 'required|string',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required'
             ]);
         
             if ($validator->fails()) {
@@ -39,8 +42,7 @@ class UserController extends Controller
                 'name' => $data['name'],
                 'username' => $data['username'],
                 'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'api_token' => str_random(60),
+                'password' => Hash::make($data['password'])
             ]); 
             return response()->json(['status' => 'success', 'user' => $user], 201);
     }
@@ -50,6 +52,9 @@ class UserController extends Controller
             $data = $request->all();
 
             $validator = Validator::make($data, [
+                'name' => 'required|string',
+                'username' => 'required|string',
+                'password' => 'required',
                 'email' => 'required|email|unique:users,email' . ($id ? ",$id" : '')
             ]);
         

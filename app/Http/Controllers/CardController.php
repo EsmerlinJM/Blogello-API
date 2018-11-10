@@ -58,11 +58,10 @@ class CardController extends Controller
         $board = Board::find($board_id);
             if($board){
                 if(Auth::user()->id == $board->user_id){
-                    $board->lists()->find($list_id)->cards()->create([
-                        'name'    => $data['name'],
-                        'description' => $data['description']
+                    $card = $board->lists()->find($list_id)->cards()->create([
+                        'name'    => $data['name']
                     ]);
-                    return response()->json(['status' => 'success', 'board' => $board], 201);
+                    return response()->json(['status' => 'success', 'card' => $card], 201);
                 }
             return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
             }

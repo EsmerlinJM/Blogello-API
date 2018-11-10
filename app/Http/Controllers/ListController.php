@@ -54,10 +54,10 @@ class ListController extends Controller
 
             if($board){
                 if(Auth::user()->id == $board->user_id){
-                    $board->lists()->create([
+                    $list = $board->lists()->create([
                         'name'    => $data['name'],
                     ]);
-                    return response()->json(['status' => 'success', 'board' => $board], 201);
+                    return response()->json(['status' => 'success', 'list' => $list], 201);
                 }
                 return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
             }
@@ -75,8 +75,8 @@ class ListController extends Controller
 
         if($board){
             if(Auth::user()->id == $board->user_id){
-                $board = Auth::user()->boards()->updateOrCreate([
-                    'id' => $board_id
+                $board->lists()->updateOrCreate([
+                    'id' => $list_id
                 ],
                 [
                     'name' => $data['name'],

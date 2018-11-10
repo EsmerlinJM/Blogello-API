@@ -11,8 +11,8 @@ class BoardController extends Controller
 {
     
     public function index(){
-        $boards = Auth::user()->boards;
-        return response()->json([$boards], 200);
+        $boards = Auth::user()->boards->load('lists.cards');
+        return response()->json(['boards' => $boards], 200);
     }
 
     public function show($board_id){
@@ -21,7 +21,7 @@ class BoardController extends Controller
 
         if($board){
             if(Auth::user()->id == $board->user_id){
-                return response()->json([$board], 200);
+                return response()->json(['board' => $board], 200);
             }
             return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
         }
@@ -35,7 +35,7 @@ class BoardController extends Controller
             'name' => $data['name'],
         ]);
 
-        return response()->json([$board], 201);
+        return response()->json(['board' => $board], 201);
     }
 
     public function update(Request $request, $board_id){

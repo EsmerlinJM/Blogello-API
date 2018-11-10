@@ -16,7 +16,7 @@ class JsonMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (in_array($request->method(), ['GET','POST', 'PUT', 'DELETE', 'PATCH'])
-            && $request->isJson()
+            && $request->wantsJson()
         ) {
             $data = $request->json()->all();
             $request->request->replace(is_array($data) ? $data : []);
