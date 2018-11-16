@@ -42,7 +42,7 @@ class AuthController extends Controller
             $user = User::where('email', $data['email'])->first();
             // TODO: Validate if user exist and password match with password of DB
             if($user && Hash::check($data['password'], $user->password)){
-                $user->api_token = Hash::make(str_random(60));
+                $user->api_token = str_random(60);
                 if($user->save()){
                     return response()->json(['status' => 'logged', 'user' => $user], 200);
                 } else {

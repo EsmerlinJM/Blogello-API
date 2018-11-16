@@ -12,7 +12,7 @@ class Card extends Model {
      * @var array
      */
     protected $fillable = [
-        'name', 'list_id', 'description'
+        'name', 'lists_id', 'description'
     ];
 
     public function list(){

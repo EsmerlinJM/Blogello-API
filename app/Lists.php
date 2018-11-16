@@ -16,7 +16,7 @@ class Lists extends Model {
     ];
 
     public function board(){
-        return $this->belongsTo(Board::class);
+        return $this->hasMany(Board::class);
     }
 
     public function cards(){
